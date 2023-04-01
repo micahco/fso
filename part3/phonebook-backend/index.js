@@ -2,8 +2,13 @@ const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
 
+// middleware
 const app = express()
 app.use(cors())
+app.use(express.json())
+app.use(express.static('build'))
+
+// morgan
 morgan.token('postBody', (req, res) => { 
   if (req.method === 'POST' || req.method === 'PUT') {
     return JSON.stringify(req.body)
@@ -19,7 +24,6 @@ app.use(morgan(function (tokens, req, res) {
     tokens['postBody'](req, res)
   ].join(' ')
 }))
-app.use(express.json())
 
 let persons = [
   {
@@ -44,11 +48,7 @@ let persons = [
   }
 ]
 
-app.get('/', (request, response) => {
-  response.send('<h1>Phonebook API</h1>')
-})
-
-app.get('/info', (request, response) => {
+app.get('/api/info', (request, response) => {
   response.send(`
     <p>Phonebook has info for ${persons.length} people</p>
     <p>${new Date()}</p>
@@ -113,7 +113,7 @@ app.post('/api/persons', (request, response) => {
   response.json(newPerson)
 })
 
-const PORT = 3001
-  app.listen(PORT, () => {
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
