@@ -4,7 +4,7 @@ require('dotenv').config()
 mongoose.set('strictQuery', false)
 
 mongoose.connect(process.env.MONGODB_URI)
-  .then(result => {
+  .then(() => {
     console.log('connected to MongoDB:', process.env.MONGODB_URI)
   })
   .catch((error) => {

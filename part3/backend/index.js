@@ -11,7 +11,7 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 
-morgan.token('postBody', (req, res) => { 
+morgan.token('postBody', (req) => {
   if (req.method === 'POST' || req.method === 'PUT') {
     return JSON.stringify(req.body)
   }
@@ -87,7 +87,7 @@ app.put('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -103,7 +103,7 @@ const errorHandler = (error, request, response, next) => {
   console.error(error.message)
   switch (error.name) {
     case 'CastError':
-      return response.status(400).send({ error: 'malformatted id' })  
+      return response.status(400).send({ error: 'malformatted id' })
     case 'ValidationError':
       return response.status(400).json({ error: error.message })
   }
