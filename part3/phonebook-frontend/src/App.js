@@ -47,9 +47,9 @@ const App = () => {
           clearForm()
           notify(`Added ${resPerson.name}`)
         })
-        .catch(response => {
-          console.log('CATCH1', response)
-          notify('Something went wrong...', true)
+        .catch(error => {
+          console.log('CATCH1', error.response.data.error)
+          notify(error.response.data.error, true)
         })
     }
   }
@@ -61,8 +61,8 @@ const App = () => {
         clearForm()
         notify(`Updated ${resPerson.name}'s number to: ${resPerson.number}`)
       })
-      .catch(response => {
-        console.log('CATCH2', response)
+      .catch(error => {
+        console.log('CATCH2', error)
         setPersons(persons.filter(p => p.id !== person.id))
         notify(`Information of ${person.name} has already been removed from the server`, true)
       })
