@@ -1,0 +1,15 @@
+GET http://localhost:3001/api/blogs/
+
+###
+DELETE http://localhost:3001/api/blogs/6428dbcccda7013ff561810c
+
+###
+POST http://localhost:3001/api/blogs/
+content-type: application/json
+
+{
+	"title": "Intro to Full Stack",
+  "author": "F.S. Open",
+  "url": "https://fullstackopen.com",
+  "likes": 2
+}
