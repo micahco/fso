@@ -9,17 +9,17 @@ const totalLikes = (blogs) => {
   return blogs.reduce(reducer, 0)
 }
 
-const getMostOfProperty = (prop) => {
-  return (top, item) => {
-    if (!top || item[prop] > top[prop]) {
-      return item
+const getMaxOfProperty = (prop) => {
+  return (max, cur) => {
+    if (!max || cur[prop] > max[prop]) {
+      return cur
     }
-    return top
+    return max
   }
 }
 
 const favoriteBlog = (blogs) => {
-  return blogs.reduce(getMostOfProperty('likes'), null)
+  return blogs.reduce(getMaxOfProperty('likes'), null)
 }
 
 const mostBlogs = (blogs) => {
@@ -31,7 +31,7 @@ const mostBlogs = (blogs) => {
       blogs: 1
     })
   })
-  return authors.reduce(getMostOfProperty('blogs'), null)
+  return authors.reduce(getMaxOfProperty('blogs'), null)
 }
 
 const mostLikes = (blogs) => {
@@ -43,7 +43,7 @@ const mostLikes = (blogs) => {
       likes: blog.likes
     })
   })
-  return authors.reduce(getMostOfProperty('likes'), null)
+  return authors.reduce(getMaxOfProperty('likes'), null)
 }
 
 module.exports = {
