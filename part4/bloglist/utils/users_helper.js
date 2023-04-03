@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 
 const User = require('../models/user')
-const fixture = require('./users.fixture').listWithManyUsers
+const fixture = require('./users_fixture').listWithManyUsers
 
 const getAll = async () => {
   const users = await User.find({})

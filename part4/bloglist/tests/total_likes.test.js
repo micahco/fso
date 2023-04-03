@@ -1,5 +1,5 @@
 const totalLikes = require('../utils/list_helper').totalLikes
-const { listWithOneBlog, listWithManyBlogs } = require('./blogs.fixture')
+const { listWithOneBlog, listWithManyBlogs } = require('../utils/blogs_fixture')
 
 describe('total likes', () => {
 
