@@ -11,4 +11,4 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:3001/api/users/642a1597c38047014664d635
+DELETE http://localhost:3001/api/users/642a2e17035ff6ffac6684d7

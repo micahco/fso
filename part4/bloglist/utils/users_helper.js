@@ -13,13 +13,16 @@ const getOne = async () => {
   return usersAtStart[0]
 }
 
-const create = async (username, name, password) => {
+const empty = async () => {
   await User.deleteMany({})
+}
+
+const create = async (username, name, password) => {
   const passwordHash = await bcrypt.hash(password, 10)
   const userObject = new User({ username, name, passwordHash })
   await userObject.save()
 }
 
 module.exports = {
-  getAll, getOne, create, fixture
+  getAll, getOne, empty, create, fixture
 }

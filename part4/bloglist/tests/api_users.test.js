@@ -1,19 +1,46 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 
-const User = require('../models/user')
 const usersHelper = require('../utils/users_helper')
 const app = require('../app')
 const api = supertest(app)
 
-describe('when there is initially one user in db', () => {
-  beforeEach(async () => {
-    await usersHelper.create('root', 'Super Root', 'password')
+beforeEach(async () => {
+  await usersHelper.empty()
+  for (let user of usersHelper.fixture) {
+    await usersHelper.create(user.username, user.name, user.password) // or create(...Object.values(user))
+  }
+})
+
+describe('GET', () => {
+  test('users are returned as json', async () => {
+    await api
+      .get('/api/users')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
   })
 
+  test('all users are returned', async () => {
+    const response = await api.get('/api/users')
+    expect(response.body).toHaveLength(usersHelper.fixture.length)
+  })
+
+  test('a specific user is within the returned users', async () => {
+    const response = await api.get('/api/users')
+    const userNamesAtEnd = response.body.map(user => user.Name)
+    expect(userNamesAtEnd).toContain(usersHelper.fixture[0].Name)
+  })
+
+  test('users are defined', async () => {
+    const users = await usersHelper.getAll()
+    expect(users[0]).toBeDefined()
+  })
+})
+
+describe('POST', () => {
   test('creation succeeds with a fresh username', async () => {
     const usersAtStart = await usersHelper.getAll()
-    const newUser = { username: 'paul', name: 'Paul Allen', password: 'watermark' }
+    const newUser = { username: 'newuser', name: 'New User', password: 'password' }
     await api
       .post('/api/users')
       .send(newUser)
@@ -23,6 +50,16 @@ describe('when there is initially one user in db', () => {
     expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
+  })
+
+  test('creation fails with a short username', async () => {
+    const newUser = { username: 'hi', name: 'Paul Allen', password: 'watermark' }
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+    const usersAtEnd = await usersHelper.getAll()
+    expect(usersAtEnd).toHaveLength(usersHelper.fixture.length)
   })
 
   test('creation fails with proper statuscode and message if username already taken', async () => {
@@ -39,26 +76,17 @@ describe('when there is initially one user in db', () => {
   })
 })
 
-describe('when there is initially many users in db', () => {
-  beforeEach(async () => {
-    await User.deleteMany({})
-    for (let user of usersHelper.fixture) {
-      await usersHelper.create(user.username, user.name, user.password) // or create(...Object.values(user))
-    }
-  })
-
-  test('creation succeeds with a fresh username', async () => {
+describe('DELETE', () => {
+  test('a user can be deleted', async () => {
     const usersAtStart = await usersHelper.getAll()
-    const newUser = { username: 'newuser', name: 'New User', password: 'password' }
+    const userToDelete = usersAtStart[0]
     await api
-      .post('/api/users')
-      .send(newUser)
-      .expect(201)
-      .expect('Content-Type', /application\/json/)
+      .delete(`/api/users/${userToDelete.id}`)
+      .expect(204)
     const usersAtEnd = await usersHelper.getAll()
-    expect(usersAtEnd).toHaveLength(usersAtStart.length + 1)
-    const usernames = usersAtEnd.map(u => u.username)
-    expect(usernames).toContain(newUser.username)
+    expect(usersAtEnd).toHaveLength(usersHelper.fixture.length - 1)
+    const users = usersAtEnd.map(u => u.username)
+    expect(users).not.toContain(userToDelete.username)
   })
 })
 
