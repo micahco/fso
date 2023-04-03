@@ -28,6 +28,14 @@ beforeEach(async () => {
     })
     await blogObject.save()
   }
+
+  let anotherUsersBlog = new Blog({
+    title: 'Different Blog',
+    author: 'Johnny Appleseed',
+    url: 'https://different.com',
+    user: [...user.id].reverse().join('') // a different id
+  })
+  await anotherUsersBlog.save()
 })
 
 describe('GET', () => {
@@ -40,7 +48,7 @@ describe('GET', () => {
 
   test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
-    expect(response.body).toHaveLength(blogsHelper.fixture.length)
+    expect(response.body).toHaveLength(blogsHelper.fixture.length + 1)
   })
 
   test('a specific blog is within the returned blogs', async () => {
@@ -154,6 +162,27 @@ describe('DELETE', () => {
     expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1)
     const titles = blogsAtEnd.map(b => b.title)
     expect(titles).not.toContain(blogToDelete.title)
+  })
+
+  test('a blog can not be deleted without an auth token', async () => {
+    const blogsAtStart = await blogsHelper.getAll()
+    const blogToDelete = blogsAtStart[0]
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(400)
+    const blogsAtEnd = await blogsHelper.getAll()
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
+  })
+
+  test('a blog can not be deleted with an invalid auth token', async () => {
+    const blogsAtStart = await blogsHelper.getAll()
+    const anotherUsersBlog = blogsAtStart[blogsAtStart.length - 1]
+    await api
+      .delete(`/api/blogs/${anotherUsersBlog.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .expect(401)
+    const blogsAtEnd = await blogsHelper.getAll()
+    expect(blogsAtEnd).toHaveLength(blogsAtStart.length)
   })
 })
 /*
