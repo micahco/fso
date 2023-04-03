@@ -35,10 +35,19 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' })
+  }
+  const blog = await Blog.findById(request.params.id)
+  if (blog.user.toString() !== decodedToken.id) {
+    return response.status(401).json({ error: 'invalid permissions' })
+  }
   await Blog.findByIdAndRemove(request.params.id)
   response.status(204).end()
 })
 
+/*
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body
   const blog = await Blog.findById(request.params.id)
@@ -49,5 +58,6 @@ blogsRouter.put('/:id', async (request, response) => {
   blog.save()
   response.json(blog)
 })
+*/
 
 module.exports = blogsRouter

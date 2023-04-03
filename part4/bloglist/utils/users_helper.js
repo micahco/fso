@@ -19,8 +19,9 @@ const empty = async () => {
 
 const create = async (username, name, password) => {
   const passwordHash = await bcrypt.hash(password, 10)
-  const userObject = new User({ username, name, passwordHash })
-  await userObject.save()
+  const user = new User({ username, name, passwordHash })
+  await user.save()
+  return user
 }
 
 module.exports = {
