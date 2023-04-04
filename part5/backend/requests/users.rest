@@ -5,9 +5,9 @@ POST http://localhost:3003/api/users/
 content-type: application/json
 
 {
-		"username": "paul",
-		"name": "Paul Allen",
-		"password": "watermark"
+		"username": "micah",
+		"name": "Micah Cowell",
+		"password": "pwd"
 }
 
 ###
