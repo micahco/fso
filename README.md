@@ -10,7 +10,7 @@ My exercise submissions for the fullstackopen course.
 ---
 
 
-## Course Notes
+# Course Notes
 
 A collection of random scripts and commands I know I'm going to need to use in the future.
 
@@ -26,7 +26,7 @@ React documentation says the following about where to place the state:
 
 [Source](https://stackoverflow.com/a/30163868)
 
-I got the following error while trying to run a Node server
+I got the following error while trying to run a Node server.
 
 ```
 $ nodemon index.js
@@ -37,8 +37,7 @@ Error: listen EADDRINUSE: address already in use :::3003`
 
 It seems like a previous instance of the Node server is still running in the background.
 
-See what process is occupying that port: 
-
+Check what process is occupying that port:
 ```
 $ lsof -i tcp:3003
 COMMAND  PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
@@ -55,7 +54,6 @@ $ kill -15 4457
 [Source](https://stackoverflow.com/a/66239788)
 
 Now, the node server starts up fine, but whenever I make a change to a file, I get the same error
-
 ```
 $ nodemon index.js
 ...
@@ -66,9 +64,8 @@ Error: listen EADDRINUSE: address already in use :::3003`
 It seems like the server is being restarted before the daemon kills the existing server
 
 Luckily, nodemon has a built in delay option that solves the problem
-
 ```
 $ nodemon --delay 500ms index.js
 ```
 
-One last note: sometimes a restart is all you need. (But also sometimes a restart breaks everything)
+One last note: sometimes a restart is all you need (But also sometimes a restart breaks everything)

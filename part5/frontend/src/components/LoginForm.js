@@ -30,7 +30,7 @@ const LoginForm = ({ onSubmit }) => {
 				/>
 			</div>
 			<button type="submit">login</button>
-		</form>  
+		</form>
 	)
 }
 

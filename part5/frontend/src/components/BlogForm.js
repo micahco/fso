@@ -1,7 +1,7 @@
-import { useState } from "react"
+import { useState } from 'react'
 
 const Input = ({ label, value, handleChange }) => {
-	return (		
+	return (
 		<div>
 			<label htmlFor={label}>{label} </label>
 			<input
