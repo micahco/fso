@@ -37,4 +37,7 @@ COMMAND  PID  USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 node    4457 micah   23u  IPv6  36925      0t0  TCP *:cgms (LISTEN)
 ```
 
-And kill it: `$ kill -15 4457`
+And kill it:
+```
+$ kill -15 4457
+```
