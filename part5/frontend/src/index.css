@@ -11,3 +11,15 @@
 .notification.error {
 	color: red;
 }
+
+.blog {
+	padding-top: 10;
+	padding-left: 2;
+	border: 'solid';
+	border-width: 1px;
+	margin-bottom: 5;
+}
+
+.blog-title {
+	font-weight: bold;
+}
