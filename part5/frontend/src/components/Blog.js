@@ -19,7 +19,7 @@ const Blog = ({ blog, isOwner, onLike, onRemove }) => {
 				uploader: {blog.user.name}
 			</small><br/>
 			{isOwner ?
-				<button onClick={onRemove}>remove</button>
+				<button className='blog-details-removebtn' onClick={onRemove}>remove</button>
 				: null }
 		</div>
 	)

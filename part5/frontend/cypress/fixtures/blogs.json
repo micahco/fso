@@ -1,0 +1,19 @@
+[
+	{
+		"title": "First Title",
+		"author": "First Author",
+		"url": "first.com",
+		"likes": 10
+	},
+	{
+		"title": "Second Title",
+		"author": "Second Author",
+		"url": "second.com",
+		"likes": 5
+	},
+	{
+		"title": "Third Title",
+		"author": "Third Author",
+		"url": "third.com"
+	}
+]

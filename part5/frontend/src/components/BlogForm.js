@@ -5,6 +5,7 @@ const Input = ({ label, value, handleChange }) => {
 		<div>
 			<label htmlFor={label}>{label} </label>
 			<input
+				className={`blogform-${label}`}
 				type="text"
 				value={value}
 				name={label}
@@ -32,7 +33,7 @@ const BlogForm = ({ onSubmit }) => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form className='blogform' onSubmit={handleSubmit}>
 			<Input
 				label='title'
 				value={title}
@@ -45,7 +46,7 @@ const BlogForm = ({ onSubmit }) => {
 				label='url'
 				value={url}
 				handleChange={e => setUrl(e.target.value)} />
-			<button type="submit">create</button>
+			<button className='blogform-submit' type="submit">create</button>
 		</form>
 	)
 }

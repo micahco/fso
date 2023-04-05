@@ -24,6 +24,7 @@ const App = () => {
 
 	useEffect(() => {
 		const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
+		// check auth ???
 		if (loggedUserJSON) {
 			const user = JSON.parse(loggedUserJSON)
 			setUser(user)
@@ -89,20 +90,22 @@ const App = () => {
 			<div>
 				<h2>blogs</h2>
 				<Notification message={notifyMessage} isError={hasError} />
-				<Togglable buttonLabel='new note' ref={blogFormRef}>
+				<Togglable buttonLabel='new blog' ref={blogFormRef}>
 					<BlogForm onSubmit={addBlog} />
 				</Togglable>
 				<div>
 					<p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
 				</div>
-				{blogs.sort((a, b) => a.likes < b.likes ? 1 : -1).map(blog =>
-					<Blog
-						key={blog.id}
-						isOwner={blog.user.username === user.username}
-						blog={blog}
-						onLike={() => likeBlog(blog)}
-						onRemove={() => window.confirm(`Remove blog ${blog.title} by ${blog.author}`) && removeBlog(blog)} />
-				)}
+				<div id='bloglist'>
+					{blogs.sort((a, b) => a.likes < b.likes ? 1 : -1).map(blog =>
+						<Blog
+							key={blog.id}
+							isOwner={blog.user.username === user.username}
+							blog={blog}
+							onLike={() => likeBlog(blog)}
+							onRemove={() => window.confirm(`Remove blog ${blog.title} by ${blog.author}`) && removeBlog(blog)} />
+					)}
+				</div>
 			</div>
 		)
 	}

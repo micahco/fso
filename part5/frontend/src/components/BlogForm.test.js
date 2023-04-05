@@ -16,18 +16,18 @@ describe('<BlogForm />', () => {
 		const { container } = render(<BlogForm onSubmit={createNote} />)
 		const user = userEvent.setup()
 		await user.type(
-			container.querySelector('input[name="title"]'),
+			container.querySelector('.blogform-title'),
 			newBlog.title
 		)
 		await user.type(
-			container.querySelector('input[name="author"]'),
+			container.querySelector('.blogform-author'),
 			newBlog.author
 		)
 		await user.type(
-			container.querySelector('input[name="url"]'),
+			container.querySelector('.blogform-url'),
 			newBlog.url
 		)
-		await user.click(container.querySelector('button[type="submit"]'))
+		await user.click(container.querySelector('.blogform-submit'))
 		expect(createNote.mock.calls).toHaveLength(1)
 		expect(createNote.mock.calls[0][0]).toEqual(newBlog)
 	})
